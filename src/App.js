@@ -1,12 +1,11 @@
-import HexToRgbConverter from './Components/HexToRgbConverter';
+import HexToRgbConverter from "./Components/HexToRgbConverter";
 
-import "./App.css"
+import "./App.css";
 
 function App() {
   return (
-    
-       <HexToRgbConverter />
-   
+    <></>
+    //  <HexToRgbConverter />
   );
 }
 
