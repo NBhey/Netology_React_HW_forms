@@ -5,40 +5,33 @@ const Steps = () => {
   const walkInput = useRef();
   // localStorage.setItem("list", JSON.stringify([]));
   // console.log(localStorage.getItem('list'))
-  const [dataForSave, setDataForSave] = useState([]);
+  let [dataForSave, setDataForSave] = useState([]);
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log("Начало",dataForSave)
+
     const currentDate = dateInput.current.value.split("-").reverse().join(".");
-    const currentWalk = +walkInput.current.value
+    const currentWalk = +walkInput.current.value;
+    let saveNewData;
 
-
-    const existingDate = dataForSave.findIndex((element) => element.dateInput === currentDate)
-
-    console.log("12 строчка", existingDate);
-    if (!existingDate) {
-      console.log('20строчка попал в если')
-      
-      const updatedData = [dataForSave];
-      console.log('23 строчка попал в если', updatedData)
-      setDataForSave([
-        ...dataForSave,
-        {
-          walkInput: +walkInput.current.value,
-        },
-      ]);
+    const existingDate = dataForSave.findIndex(
+      (element) => element.currentDate === currentDate
+    );
+    
+    if(existingDate === -1){
+      saveNewData = [...dataForSave, {currentDate, currentWalk}]
+      setDataForSave(saveNewData)
     } else {
-      console.log('28 строчка попал в else')
-      setDataForSave([
-        ...dataForSave,
-        {
-          dateInput: currentDate,
-          walkInput: currentWalk,
-        },
-      ]);
-    }
 
-    console.log("18 строчка", dataForSave);
+      saveNewData = dataForSave.map((el)=>{
+        if(el.currentDate === currentDate){
+          el.currentWalk += currentWalk
+        } return el
+      })
+      setDataForSave(saveNewData)
+    }
+    console.log("Конец",dataForSave )
   };
 
   return (
@@ -76,11 +69,11 @@ const Steps = () => {
 };
 
 const StepsTable = ({ dataForSave }) => {
-  console.log(dataForSave);
+  console.log('я StepsTable', dataForSave)
   return (
     <tr>
-      <th> {dataForSave.dateInput} </th>
-      <th> {dataForSave.walkInput} </th>
+      <th> {dataForSave.currentDate} </th>
+      <th> {dataForSave.currentWalk} </th>
       <th>
         <span>ред</span> <button>x</button>
       </th>
